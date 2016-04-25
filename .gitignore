@@ -1,18 +1,7 @@
 design/*
 
-node_modules/**
-!./node_modules
-!node_modules/flux
-!node_modules/flux/lib
-!node_modules/flux/lib/**
+access-token.js
 
-!node_modules/react
-!node_modules/react/dist
-!node_modules/react/dist/react.min.js
+node_modules
 
-!node_modules/react-dom
-!node_modules/react-dom/dist
-!node_modules/react-dom/dist/react-dom.min.js
 
-!node_modules/object-assign
-!node_modules/object-assign/index.js
