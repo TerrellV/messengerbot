@@ -1,18 +1,22 @@
+var https = require('https');
+var fs = require('fs');
+
 var express = require('express');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
 
 var app = express();
+
 // godaddy provides an intermediate file with multiple certs so we have to seperate them and place them into an array as individual strings.
 var gd1 = fs.readFileSync('/home/terrell/gd1.pem', 'utf8');
 var gd2 = fs.readFileSync('/home/terrell/gd2.pem', 'utf8');
 var gd3 = fs.readFileSync('/home/terrell/gd3.pem', 'utf8');
+
 var options = {
         key: fs.readFileSync('/home/terrell/terrellvest.com.key'),
         cert: fs.readFileSync('/home/terrell/terrellvest.com.crt'),
         ca:[gd1, gd2, gd3]
 };
-
 
 app.use(bodyParser.json());
 
@@ -25,7 +29,7 @@ app.get('/webhook', function (req, res) {
 });
 
 app.get('/', function(req, res){
-        res.send('Hello World!');
+        res.send('Hello World! Nothing to see here... move along.');
 });
 
 app.post('/webhook', function (req, res) {
