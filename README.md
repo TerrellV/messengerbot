@@ -7,11 +7,11 @@ These steps are going to make the assumption that your local server is running o
 
 provided ngrok is installed and added to the PATH variable and nodemon is installed globally
 
-1. Start ngrok
+1. Start ngrok </br>
 `ngrok http 3040`
 
-2. Start local app
+2. Start local app </br>
 `nodemon devapp.js`
 
-3. Copy and paste the url with the /webhook path in required field on facebook's app dashboard
-Your domain will be something like this: https:34reb62es.ngok.io/webhook
+3. Copy and paste the url with the /webhook path in required field on facebook's app dashboard </br>
+  **Example Domain:** https:34reb62es.ngok.io/webhook
