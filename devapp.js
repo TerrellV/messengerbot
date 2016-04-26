@@ -1,22 +1,11 @@
 var https = require('https');
 var fs = require('fs');
-
+var request = require('request');
 var express = require('express');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
 
 var app = express();
-
-// godaddy provides an intermediate file with multiple certs so we have to seperate them and place them into an array as individual strings.
-var gd1 = fs.readFileSync('/home/terrell/gd1.pem', 'utf8');
-var gd2 = fs.readFileSync('/home/terrell/gd2.pem', 'utf8');
-var gd3 = fs.readFileSync('/home/terrell/gd3.pem', 'utf8');
-
-var options = {
-  key: fs.readFileSync('/home/terrell/terrellvest.com.key'),
-  cert: fs.readFileSync('/home/terrell/terrellvest.com.crt'),
-  ca:[gd1, gd2, gd3]
-};
 
 app.use(bodyParser.json());
 
@@ -47,6 +36,6 @@ app.post('/webhook', function (req, res) {
 });
 
 
-var server = https.createServer(options, app).listen(3040, function(){
-        console.log('express server listening on port 3040');
-});
+app.listen(3040, function(err){
+  console.log('express dev server running');
+})
