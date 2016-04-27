@@ -1,17 +1,22 @@
-# messengerbot
-Messenger bot for facebook page
+# Messengerbot
+It interacts with people through Facebook's Messenger platform. Individuals can open a chat with the page to interact with the bot.  
 
 ### Steps for running the bot
 
-These steps are going to make the assumption that your local server is running on port 3020. You should change this number depending on the port your local server is running. 
+These directions require that ngrock is installed and added to the PATH variable. Also, nodemon must be installed (in my case it's installed globally). Feel free to install it locally if you prefer. If that is the case, you must install it specifically via npm. ```sh npm install nodemon ```
 
-provided ngrok is installed and added to the PATH variable and nodemon is installed globally
 
-1. Start ngrok </br>
-`ngrok http 3040`
+1. Start ngrok 
+    ```sh
+    ngrok http 3040
+    ```
 
-2. Start local app </br>
-`nodemon devapp.js`
+2. Start local app
+    ```sh
+    nodemon devapp.js
+    ```
 
-3. Copy and paste the url with the /webhook path in required field on facebook's app dashboard </br>
-  **Example Domain:** https:34reb62es.ngok.io/webhook
+3. Copy the https url that ngrok generates with the /webhook route at the end.</br>
+   Every time a new url is generated you must copy it and register it in the apps facebook dashboard. Once in the app dashboard navigate to messenger > webhooks </br>
+  
+   **ex** `https:34reb62es.ngok.io/webhook`
