@@ -1,8 +1,29 @@
 var token = require('./access-token.js').token;
 var request = require('request');
+var PAGE_ID = '1554039508189783';
 
 module.exports = {
-
+  setWelcomeScreen: function(){
+    request({
+      url: `https://graph.facebook.com/v2.6/${PAGE_ID}/thread_settings?access_token=${token}`,
+      method: 'POST',
+      qs: {
+        'setting_type': 'call_to_actions',
+        'thread_state': 'new_thread',
+        'call_to_actions': [
+          {
+            'message': {
+              'text': 'Welcome to the Miramar Business Club\'s Page! Send us a message to learn more about what we do.'
+            }
+          }
+        ]
+      }
+    }, function(err, response, body){
+      if (err) console.log(err);
+      console.log('got a resonse, after setting welcome message');
+      console.log(JSON.stringify(body));
+    })
+  },
   sendTextMessage: function (sender, text) {
     messageData = {
       text:text
@@ -16,6 +37,9 @@ module.exports = {
         message: messageData,
       }
     }, function(error, response, body) {
+
+      console.log('messeage should be sent');
+
       if (error) {
         console.log('Error sending message: ', error);
       } else if (response.body.error) {
@@ -23,30 +47,23 @@ module.exports = {
       }
     });
   },
-
   sendButtons: function (sender) {
-
     var message = {
       'attachment': {
         'type':'template',
         'payload':{
           'template_type': 'button',
-          'text': 'What time do you want the next meeting at?',
+          'text': 'See what we have planned',
           'buttons': [
             {
-              'type': 'postback',
-              'title': '10:00 am',
-              'payload': '12am'
+              'type': 'web_url',
+              'title': 'View Agenda',
+              'url': 'https://docs.google.com/a/miramarsd.net/viewer?a=v&pid=sites&srcid=bWlyYW1hcnNkLm5ldHxidXNpbmVzc2NsdWJ8Z3g6NGQwZDZlNDdmNjQ3YmI2Ng'
             },
             {
               'type': 'postback',
-              'title': '12:00 Noon',
-              'payload': '12am'
-            },
-            {
-              'type': 'postback',
-              'title': 'start chatting',
-              'payload': 'USER_DEFINED_PAYLOAD'
+              'title': 'RSVP',
+              'payload': 'MEETING_RSVP'
             }
           ]
         }
@@ -68,19 +85,17 @@ module.exports = {
       }
     });
   },
-
-  getProfileInfo: function(sender){
+  getProfileInfo: function(sender, resolve, reject){
     request({
       url: 'https://graph.facebook.com/v2.6/'+sender+'?fields=first_name,last_name,profile_pic',
       qs: {access_token:token},
       method: 'GET',
-    }, function(err, res, bod){
-      const profile = JSON.parse(bod);
-      this.sendTextMessage(sender, 'Hey '+ profile.first_name)
+    }, function(err, response, body){
       if (err) console.log(err);
-    }.bind(this))
+      const profile = JSON.parse(body);
+      resolve({id: sender, profile: profile});
+    }.bind(this));
   },
-
   sendGenericMessage: function(sender) {
     messageData = {
       "attachment": {

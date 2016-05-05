@@ -27,7 +27,7 @@ app.get('/webhook', function (req, res) {
 });
 
 app.get('/', function(req, res){
-        res.send('Hello World! Nothing to see here... move along.');
+        res.send('Hello World! Your Messenger bot is running! Make sure the url registerd as the webhook in your facebook app dashboard has been updated. Enjoy.');
 });
 
 app.post('/webhook', function (req, res) {
