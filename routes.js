@@ -13,17 +13,12 @@ module.exports = function(app, actions){
     }
   });
 
-  var firstLoad = true;
-
   app.post('/webhook', function (req, res) {
-
-    if(firstLoad) {firstLoad = false; actions.setWelcomeScreen()};
-
 
     messaging_events = req.body.entry[0].messaging;
     for (i = 0; i < messaging_events.length; i++) {
       event = req.body.entry[0].messaging[i];
-      console.log('message received');
+
       if (event.postback){
         if(event.postback.payload === 'MEETING_RSVP'){
           new Promise(actions.getProfileInfo.bind(this,senderID))
@@ -42,8 +37,16 @@ module.exports = function(app, actions){
       }
 
       senderID = event.sender.id;
+
       if (event.message && event.message.text) {
+
         messageText = event.message.text.toLowerCase();
+        console.log('\n\n-----MESSAGE RECEIVED-----\n');
+        new Promise(actions.getProfileInfo.bind(this,senderID)).then( user => {
+          console.log(`\nfrom: ${user.profile.first_name}\n`);
+          console.log(`\nmsg: ${messageText}\n`);
+          console.log('------------------\n');
+        })
 
         if(messageText === 'profile'){
           actions.getProfileInfo(senderID);
